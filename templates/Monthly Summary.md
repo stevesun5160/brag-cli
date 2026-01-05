@@ -4,11 +4,11 @@ tags:
   - journal
 ---
 
-## 🏆 Top Highlights (The "Elevator Pitch")
+## Top Highlights (The "Elevator Pitch")
 
 <!-- 本月最重要的 1-3 個成就，用一句話講完，適合跟老闆 1:1 時口頭報告 -->
 
-## 📦 Key Deliverables (Impact Focus)
+## Key Deliverables (Impact Focus)
 
 <!-- 整合整個月的 Shipped 項目，依專案或主題分群 -->
 <!-- [專案 A / 主題 A] -->
