@@ -35,6 +35,7 @@ export const config: Config = {
   logsDir: expandEnvPath(process.env.LOGS_DIR) || join(projectRoot, 'logs'),
   summariesDir: expandEnvPath(process.env.SUMMARIES_DIR) || join(projectRoot, 'summaries'),
   templatesDir: join(projectRoot, 'templates'),
+  promptsDir: join(projectRoot, 'prompts'),
 }
 
 /**

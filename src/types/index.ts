@@ -10,6 +10,8 @@ export interface Config {
   summariesDir: string;
   /** Directory path for templates */
   templatesDir: string;
+  /** Directory path for AI prompts */
+  promptsDir: string;
 }
 
 /**

@@ -65,6 +65,10 @@ src/
 ├── ai/            # AI integration layer (gemini client, prompts)
 ├── types/         # Shared TypeScript interfaces
 └── config.ts      # Environment configuration and validation
+
+prompts/           # AI prompt templates (external .md files)
+├── polish-prompt.md   # Prompt for brag-polish command
+└── summary-prompt.md  # Prompt for brag-sum command
 ```
 
 **Key architectural decisions:**
@@ -74,8 +78,9 @@ src/
 2. **Utility Layer**: Pure functions in `src/utils/` are stateless and testable. Each utility module has a corresponding `.test.ts` file in the same directory.
 
 3. **AI Layer**: Isolated in `src/ai/` with two components:
-   - `prompts.ts`: Template functions that generate prompts (pure functions)
+   - `prompts.ts`: Functions that load and populate prompt templates from external files
    - `gemini.ts`: Client wrapper for Google GenAI SDK (stateful singleton)
+   - Prompt templates stored in `prompts/*.md` for easy editing without code changes
 
 4. **Type Safety**: All modules use explicit TypeScript types defined in `src/types/index.ts`. Strict mode is enabled.
 
@@ -105,6 +110,7 @@ prompts.createSummaryPrompt() → gemini.generateContent() → file.writeFile()
 - `LOGS_DIR`: Defaults to `./logs`
 - `SUMMARIES_DIR`: Defaults to `./summaries`
 - `templatesDir`: Hardcoded to `./templates`
+- `promptsDir`: Hardcoded to `./prompts`
 
 The config object is a singleton exported directly, accessed by importing `{ config }`.
 
@@ -134,15 +140,24 @@ All functions preserve frontmatter and formatting.
 
 ### AI Prompt Engineering
 
-Prompts in `src/ai/prompts.ts` are designed to:
+Prompt templates are stored in `prompts/*.md` files for easy editing:
+- `polish-prompt.md`: Template for polishing daily journal entries
+- `summary-prompt.md`: Template for generating monthly summaries
+
+**Prompt Design Principles:**
 - Output raw Markdown (no explanations)
 - Preserve frontmatter and structure
 - Use繁體中文 for content
 - Avoid AI-sounding phrases ("顯著", "有效地", "成功地")
 - Follow STAR principle for work items
 - Categorize content into predefined sections
+- Use `{{USER_INPUT}}` placeholder for dynamic content injection
+- Maintain `<USER_INPUT>` XML tags for security (prompt injection prevention)
 
-When modifying prompts, ensure they maintain the template structure and output format.
+**Editing Prompts:**
+- Edit `.md` files directly in `prompts/` directory
+- No need to rebuild - changes take effect immediately
+- Test with `pnpm dev:polish` or `pnpm dev:sum` after changes
 
 ALWAYS thinking in English when writing prompts, but the output must be in zh-TW.
 
